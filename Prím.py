@@ -3,7 +3,6 @@ import xlsxwriter                      #
 from math import sqrt                  # 
 import matplotlib.pyplot as plt        # Import
 import time                            #
-import json                            #
 import turtle                          #
 
 
@@ -20,16 +19,13 @@ start_time = time.time() # Start timer
 
 
 def prime(tNum, prímek = []) -> bool: # Creating a functioin to find out if nummber is prime or not
-    isPrime = True
     if prímek:                        # If the list of primes aren't empty
         if tNum in prímek:
             return(True)              # If the tested nummber is in the list of primes than it is a prime
         for prím in prímek:           
             if tNum % prím == 0:      
-                isPrime = False
                 return(False)
     if tNum == 1:                     # Adding red flags
-        isPrime = False
         return(False)
     elif tNum == 2 or 3:
         return(True)
@@ -39,10 +35,7 @@ def prime(tNum, prímek = []) -> bool: # Creating a functioin to find out if num
             continue
         if tNum % i == 0:
             return(False)
-    if isPrime:                       # Returning the data
-        return(True)
-    elif isPrime == False:
-        return(False)
+    
 
 
 
@@ -52,13 +45,13 @@ y_cords = []
 loops = 1*10**6
 prímek = []
 primes = 0
-with alive_bar(loops) as bar:
-    for i in range(loops):
-        if prime(i+1, prímek) == True:
-            prímek.append(i+1)
+with alive_bar(int(loops/2)-3) as bar:
+    for i in range(3, loops, 2):
+        if prime(i, prímek) == True:
+            prímek.append(i)
             primes += 1
-        if (i+1) % res == 0:
-            y_cords.append(i+1)
+        if (i) % res == 0:
+            y_cords.append(i)
             x_cords.append(primes)
             primes = 0 
         bar()
@@ -90,7 +83,6 @@ plt.xlabel("Nums")
 
 
 
-
 t = turtle.Turtle()
 t.speed(10000000)
 t.hideturtle()
@@ -112,7 +104,7 @@ with alive_bar(prímek[-1]) as bar4:
             t.pendown()
             t.color(219, 254, 255)
             t.begin_fill()
-            t.circle(0.125)
+            t.circle(0.25)
             t.end_fill()
             t.color(0,0,0)
             t.penup()
@@ -123,7 +115,6 @@ with alive_bar(prímek[-1]) as bar4:
 
 turtle.getscreen().getcanvas().postscript(file='test.ps')
 turtle.done()
-
 end_time = time.time()                  # Stop timer
 time_lapsed = end_time - start_time     # Calculate the runtime
 time_convert(time_lapsed)               # Convert   
