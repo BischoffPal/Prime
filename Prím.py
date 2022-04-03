@@ -1,7 +1,11 @@
 from alive_progress import alive_bar   #                  
-import xlsxwriter                      # Import
-import matplotlib.pyplot as plt        # 
+import xlsxwriter                      # 
+from math import sqrt                  # 
+import matplotlib.pyplot as plt        # Import
 import time                            #
+import json                            #
+import turtle                          #
+
 
 
 def time_convert(sec):  # Creating a function that makes run time more readable                                                   
@@ -30,7 +34,7 @@ def prime(tNum, prímek = []) -> bool: # Creating a functioin to find out if num
     elif tNum == 2 or 3:
         return(True)
     
-    for i in range(3, tNum/2, 2):     # Running W.C.S. (Worst Case Scenario) tests
+    for i in range(3, int(sqrt(tNum))+1, 2):     # Running W.C.S. (Worst Case Scenario) tests
         if i in prímek:
             continue
         if tNum % i == 0:
@@ -42,10 +46,10 @@ def prime(tNum, prímek = []) -> bool: # Creating a functioin to find out if num
 
 
 
-res = 10000                           # Setting resolution 
+res = 10000                         # Setting resolution 
 x_cords = []                          
 y_cords = []
-loops = 1*10**5
+loops = 1*10**6
 prímek = []
 primes = 0
 with alive_bar(loops) as bar:
@@ -84,6 +88,41 @@ plt.plot(y_cords, x_cords)              # Setting the plot
 plt.ylabel("Primes")            
 plt.xlabel("Nums")
 
+
+
+
+t = turtle.Turtle()
+t.speed(10000000)
+t.hideturtle()
+t.pensize(3)
+turtle.colormode(255)
+main_color = (0, 0, 0)
+t.color(255,0,0)
+t.screen.bgcolor(main_color)
+turn = 1
+add = 5
+with alive_bar(prímek[-1]) as bar4:
+    for i in range(1, prímek[-1]+1, 1):
+        t.penup()
+        if i == turn:
+            t.left(90)
+            turn += 1 + add
+            add += 5 
+        if i in prímek:
+            t.pendown()
+            t.color(219, 254, 255)
+            t.begin_fill()
+            t.circle(0.125)
+            t.end_fill()
+            t.color(0,0,0)
+            t.penup()
+        t.forward(1)
+        bar4()
+
+    
+
+turtle.getscreen().getcanvas().postscript(file='test.ps')
+turtle.done()
 
 end_time = time.time()                  # Stop timer
 time_lapsed = end_time - start_time     # Calculate the runtime
